@@ -37,13 +37,13 @@ st.subheader("Market snapshot")
 left, right = st.columns(2)
 
 with left:
-   price_chart = px.histogram(
-    products[products["price"] < 200],
-    x="price",
-    nbins=40,
-    template="simple_white",
-    title="Price Distribution (< $200)"
-)
+    price_chart = px.histogram(
+        products[products["price"] < 200],
+        x="price",
+        nbins=40,
+        template="simple_white",
+        title="Price Distribution (< $200)"
+    )
     st.plotly_chart(price_chart, use_container_width=True)
 
 with right:
