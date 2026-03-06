@@ -27,3 +27,23 @@ fig = px.bar(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Review volume by price range")
+
+review_dist = (
+    products
+    .groupby("price_range", as_index=False)["review_count"]
+    .sum()
+    .sort_values("review_count", ascending=False)
+)
+
+fig_reviews = px.bar(
+    review_dist,
+    x="price_range",
+    y="review_count",
+    template="simple_white",
+    title="Total reviews per price segment"
+)
+
+st.plotly_chart(fig_reviews, use_container_width=True)
