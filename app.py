@@ -27,13 +27,6 @@ except Exception as e:
 
 max_price = int(products["price"].dropna().quantile(0.95))
 
-price_limit = st.sidebar.slider(
-    "Maximum product price",
-    min_value=0,
-    max_value=max_price,
-    value=max_price,
-)
-
 filtered_products = products[products["price"] <= price_limit].copy()
 
 st.title("NOVAres | Amazon Beauty Market Intelligence")
@@ -57,6 +50,15 @@ with col4:
 
 st.markdown("---")
 st.subheader("Market snapshot")
+
+price_limit = st.slider(
+    "Maximum product price",
+    min_value=0,
+    max_value=max_price,
+    value=max_price,
+)
+
+left, right = st.columns(2)
 
 left, right = st.columns(2)
 
