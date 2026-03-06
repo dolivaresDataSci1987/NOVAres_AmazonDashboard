@@ -81,8 +81,14 @@ st.plotly_chart(fig, use_container_width=True)
 st.markdown("---")
 st.subheader("Brand positioning map")
 
+brand_map = brand_value.merge(
+    brand_stats[["brand", "total_reviews"]],
+    on="brand",
+    how="left"
+)
+
 fig_comp = px.scatter(
-    brand_stats,
+    brand_map,
     x="avg_rating",
     y="avg_price",
     size="total_reviews",
