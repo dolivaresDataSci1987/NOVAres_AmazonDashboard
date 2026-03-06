@@ -24,10 +24,7 @@ except Exception as e:
     st.error(f"Error loading CSV files: {e}")
     st.stop()
 
-
 max_price = int(products["price"].dropna().quantile(0.95))
-
-filtered_products = products[products["price"] <= price_limit].copy()
 
 st.title("NOVAres | Amazon Beauty Market Intelligence")
 st.caption(
@@ -55,10 +52,10 @@ price_limit = st.slider(
     "Maximum product price",
     min_value=0,
     max_value=max_price,
-    value=max_price,
+    value=max_price
 )
 
-left, right = st.columns(2)
+filtered_products = products[products["price"] <= price_limit].copy()
 
 left, right = st.columns(2)
 
