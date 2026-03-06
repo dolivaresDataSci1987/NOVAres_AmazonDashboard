@@ -96,3 +96,57 @@ fig_heatmap = px.density_heatmap(
 )
 
 st.plotly_chart(fig_heatmap, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Top overperformers / underperformers")
+
+min_reviews = st.slider(
+    "Minimum reviews for product ranking",
+    min_value=0,
+    max_value=int(products["review_count"].max()),
+    value=20
+)
+
+eligible_products = products[products["review_count"] >= min_reviews].copy()
+
+top_overperformers = (
+    eligible_products
+    .sort_values("rating_residual", ascending=False)
+    .head(15)
+    [["parent_asin", "brand", "price", "avg_rating", "review_count", "rating_residual", "price_range"]]
+    .rename(columns={
+        "parent_asin": "ASIN",
+        "brand": "Brand",
+        "price": "Price",
+        "avg_rating": "Avg Rating",
+        "review_count": "Reviews",
+        "rating_residual": "Rating Residual",
+        "price_range": "Price Range"
+    })
+)
+
+top_underperformers = (
+    eligible_products
+    .sort_values("rating_residual", ascending=True)
+    .head(15)
+    [["parent_asin", "brand", "price", "avg_rating", "review_count", "rating_residual", "price_range"]]
+    .rename(columns={
+        "parent_asin": "ASIN",
+        "brand": "Brand",
+        "price": "Price",
+        "avg_rating": "Avg Rating",
+        "review_count": "Reviews",
+        "rating_residual": "Rating Residual",
+        "price_range": "Price Range"
+    })
+)
+
+left, right = st.columns(2)
+
+with left:
+    st.write("Top overperformers")
+    st.dataframe(top_overperformers, use_container_width=True, hide_index=True)
+
+with right:
+    st.write("Top underperformers")
+    st.dataframe(top_underperformers, use_container_width=True, hide_index=True)
