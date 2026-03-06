@@ -6,17 +6,39 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("NOVAres Amazon Beauty Dashboard")
-
 # Load data
 products = pd.read_csv("data/exports/products_final.csv")
 brand_stats = pd.read_csv("data/exports/brand_stats.csv")
 brand_value = pd.read_csv("data/exports/brand_value.csv")
 review_words = pd.read_csv("data/exports/review_word_importance.csv")
 
-st.write("Data loaded successfully")
+st.title("NOVAres | Amazon Beauty Market Intelligence")
+st.caption("Executive dashboard for Amazon Beauty market structure, brand competition, value, and review signals.")
 
-st.write("Products:", products.shape)
-st.write("Brands:", brand_stats.shape)
-st.write("Brand value:", brand_value.shape)
-st.write("Review words:", review_words.shape)
+col1, col2, col3, col4 = st.columns(4)
+
+with col1:
+    st.metric("Products", f"{products.shape[0]:,}")
+
+with col2:
+    st.metric("Brands", f"{brand_stats.shape[0]:,}")
+
+with col3:
+    st.metric("Brand Value Rows", f"{brand_value.shape[0]:,}")
+
+with col4:
+    st.metric("Review Terms", f"{review_words.shape[0]:,}")
+
+st.markdown("---")
+
+st.subheader("Dataset preview")
+
+c1, c2 = st.columns(2)
+
+with c1:
+    st.write("Products sample")
+    st.dataframe(products.head(10), use_container_width=True)
+
+with c2:
+    st.write("Brand stats sample")
+    st.dataframe(brand_stats.head(10), use_container_width=True)
