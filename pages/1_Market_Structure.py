@@ -4,8 +4,26 @@ import plotly.express as px
 
 st.title("Market Structure")
 
-st.caption("Structural analysis of the Amazon Beauty market.")
+st.caption("Structural composition of the Amazon Beauty market.")
 
 products = pd.read_csv("data/exports/products_final.csv")
 
-st.write("Total products:", products.shape[0])
+st.subheader("Product distribution by price range")
+
+price_dist = (
+    products
+    .groupby("price_range")
+    .size()
+    .reset_index(name="n_products")
+    .sort_values("n_products", ascending=False)
+)
+
+fig = px.bar(
+    price_dist,
+    x="price_range",
+    y="n_products",
+    template="simple_white",
+    title="Number of products per price segment"
+)
+
+st.plotly_chart(fig, use_container_width=True)
