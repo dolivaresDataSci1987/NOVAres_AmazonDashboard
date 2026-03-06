@@ -46,3 +46,27 @@ with right:
         title="Total reviews per price segment"
     )
     st.plotly_chart(fig_reviews, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Brand concentration")
+
+brand_stats = pd.read_csv("data/exports/brand_stats.csv")
+
+top_brands = (
+    brand_stats
+    .sort_values("total_reviews", ascending=False)
+    .head(15)
+)
+
+fig_brand_conc = px.bar(
+    top_brands,
+    x="total_reviews",
+    y="brand",
+    orientation="h",
+    template="simple_white",
+    title="Top 15 brands by total reviews"
+)
+
+fig_brand_conc.update_layout(yaxis={"categoryorder": "total ascending"})
+
+st.plotly_chart(fig_brand_conc, use_container_width=True)
