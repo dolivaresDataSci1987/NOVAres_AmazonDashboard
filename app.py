@@ -47,19 +47,24 @@ st.subheader("Market snapshot")
 
 left, right = st.columns(2)
 
+st.markdown("---")
+st.subheader("Market snapshot")
+
+left, right = st.columns(2)
+
 with left:
-   price_chart = px.histogram(
-    filtered_products,
+    price_chart = px.histogram(
+        filtered_products,
         x="price",
         nbins=40,
         template="simple_white",
-        title="Price Distribution (< $200)"
+        title="Price Distribution"
     )
     st.plotly_chart(price_chart, use_container_width=True)
 
 with right:
     rating_chart = px.histogram(
-    filtered_products,
+        filtered_products,
         x="avg_rating",
         nbins=30,
         template="simple_white",
