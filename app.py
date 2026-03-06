@@ -77,3 +77,18 @@ fig = px.bar(
 fig.update_layout(yaxis={'categoryorder':'total ascending'})
 
 st.plotly_chart(fig, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Brand positioning map")
+
+fig_comp = px.scatter(
+    brand_stats,
+    x="avg_rating",
+    y="avg_price",
+    size="total_reviews",
+    hover_name="brand",
+    template="simple_white",
+    title="Brand Positioning: Rating vs Price"
+)
+
+st.plotly_chart(fig_comp, use_container_width=True)
