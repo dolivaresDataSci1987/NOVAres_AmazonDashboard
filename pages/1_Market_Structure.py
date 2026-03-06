@@ -70,3 +70,32 @@ fig_brand_conc = px.bar(
 fig_brand_conc.update_layout(yaxis={"categoryorder": "total ascending"})
 
 st.plotly_chart(fig_brand_conc, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Cumulative market concentration")
+
+brand_stats = pd.read_csv("data/exports/brand_stats.csv")
+
+concentration = (
+    brand_stats[["brand", "total_reviews"]]
+    .sort_values("total_reviews", ascending=False)
+    .reset_index(drop=True)
+)
+
+concentration["rank"] = concentration.index + 1
+concentration["cum_reviews"] = concentration["total_reviews"].cumsum()
+concentration["cum_share"] = (
+    concentration["cum_reviews"] / concentration["total_reviews"].sum()
+)
+
+fig_conc = px.line(
+    concentration,
+    x="rank",
+    y="cum_share",
+    template="simple_white",
+    title="Cumulative share of reviews captured by top brands"
+)
+
+fig_conc.update_yaxes(tickformat=".0%")
+
+st.plotly_chart(fig_conc, use_container_width=True)
