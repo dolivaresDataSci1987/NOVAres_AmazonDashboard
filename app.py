@@ -98,3 +98,15 @@ fig_comp = px.scatter(
     title="Brand Positioning: Rating vs Price vs Value Score"
 )
 st.plotly_chart(fig_comp, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Top brands by value score")
+
+top_value = (
+    brand_value
+    .sort_values("value_score", ascending=False)
+    .head(15)
+    [["brand", "value_score", "avg_price", "avg_rating", "n_products"]]
+)
+
+st.dataframe(top_value, use_container_width=True)
