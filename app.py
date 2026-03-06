@@ -92,9 +92,9 @@ fig_comp = px.scatter(
     x="avg_rating",
     y="avg_price",
     size="total_reviews",
+    color="value_score",
     hover_name="brand",
     template="simple_white",
-    title="Brand Positioning: Rating vs Price"
+    title="Brand Positioning: Rating vs Price vs Value Score"
 )
-
 st.plotly_chart(fig_comp, use_container_width=True)
