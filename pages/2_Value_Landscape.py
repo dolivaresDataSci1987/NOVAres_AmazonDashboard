@@ -58,3 +58,41 @@ with right:
         title="Average rating residual by price range"
     )
     st.plotly_chart(fig_residual, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Heatmap: price range × review bucket")
+
+heatmap_df = (
+    products
+    .dropna(subset=["review_bucket"])
+    .groupby(["price_range", "review_bucket"], as_index=False)
+    .agg(
+        avg_rating=("avg_rating", "mean"),
+        avg_residual=("rating_residual", "mean"),
+        n_products=("parent_asin", "count")
+    )
+)
+
+metric_option = st.radio(
+    "Heatmap metric",
+    options=["avg_rating", "avg_residual", "n_products"],
+    horizontal=True
+)
+
+metric_titles = {
+    "avg_rating": "Average rating",
+    "avg_residual": "Average rating residual",
+    "n_products": "Number of products"
+}
+
+fig_heatmap = px.density_heatmap(
+    heatmap_df,
+    x="review_bucket",
+    y="price_range",
+    z=metric_option,
+    text_auto=".2f" if metric_option != "n_products" else True,
+    template="simple_white",
+    title=f"Heatmap of {metric_titles[metric_option]} by price range and review bucket"
+)
+
+st.plotly_chart(fig_heatmap, use_container_width=True)
