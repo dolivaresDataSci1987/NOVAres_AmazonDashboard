@@ -55,3 +55,25 @@ with right:
         title="Rating Distribution"
     )
     st.plotly_chart(rating_chart, use_container_width=True)
+
+st.markdown("---")
+st.subheader("Top brands by review volume")
+
+top_brands = (
+    brand_stats
+    .sort_values("total_reviews", ascending=False)
+    .head(15)
+)
+
+fig = px.bar(
+    top_brands,
+    x="total_reviews",
+    y="brand",
+    orientation="h",
+    template="simple_white",
+    title="Top 15 Brands by Total Reviews"
+)
+
+fig.update_layout(yaxis={'categoryorder':'total ascending'})
+
+st.plotly_chart(fig, use_container_width=True)
