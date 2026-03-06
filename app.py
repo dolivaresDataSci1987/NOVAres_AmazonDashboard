@@ -13,6 +13,17 @@ brand_stats = pd.read_csv("data/exports/brand_stats.csv")
 brand_value = pd.read_csv("data/exports/brand_value.csv")
 review_words = pd.read_csv("data/exports/review_word_importance.csv")
 
+max_price = int(products["price"].dropna().quantile(0.95))
+
+price_limit = st.sidebar.slider(
+    "Maximum product price",
+    min_value=0,
+    max_value=max_price,
+    value=max_price
+)
+
+filtered_products = products[products["price"] <= price_limit].copy()
+
 st.title("NOVAres | Amazon Beauty Market Intelligence")
 st.caption("Executive dashboard for Amazon Beauty market structure, brand competition, value, and review signals.")
 
@@ -37,8 +48,8 @@ st.subheader("Market snapshot")
 left, right = st.columns(2)
 
 with left:
-    price_chart = px.histogram(
-        products[products["price"] < 200],
+   price_chart = px.histogram(
+    filtered_products,
         x="price",
         nbins=40,
         template="simple_white",
@@ -48,7 +59,7 @@ with left:
 
 with right:
     rating_chart = px.histogram(
-        products,
+    filtered_products,
         x="avg_rating",
         nbins=30,
         template="simple_white",
