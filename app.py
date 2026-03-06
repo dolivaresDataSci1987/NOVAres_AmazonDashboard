@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
 
 st.set_page_config(
     page_title="NOVAres | Amazon Beauty Intelligence",
@@ -31,14 +32,26 @@ with col4:
 
 st.markdown("---")
 
-st.subheader("Dataset preview")
+st.subheader("Market snapshot")
 
-c1, c2 = st.columns(2)
+left, right = st.columns(2)
 
-with c1:
-    st.write("Products sample")
-    st.dataframe(products.head(10), use_container_width=True)
+with left:
+    price_chart = px.histogram(
+        products,
+        x="price",
+        nbins=40,
+        template="simple_white",
+        title="Price Distribution"
+    )
+    st.plotly_chart(price_chart, use_container_width=True)
 
-with c2:
-    st.write("Brand stats sample")
-    st.dataframe(brand_stats.head(10), use_container_width=True)
+with right:
+    rating_chart = px.histogram(
+        products,
+        x="avg_rating",
+        nbins=30,
+        template="simple_white",
+        title="Rating Distribution"
+    )
+    st.plotly_chart(rating_chart, use_container_width=True)
